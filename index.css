@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;900&display=swap');
+
+* {
+    font-family: 'Roboto', sans-serif;   
+}
+
+body {
+    margin: 0;
+    background-color: rgb(24, 62, 116);
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+
+    background: url(../src/assets/4k_bg.jpg);
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+.nav {
+    min-height: clamp(100px, 100px + 1dvw, 150px);
+    /* border: 2px solid white; */
+    color: white;
+    
+    /* Positioning */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 5px;
+}
+
+.title {
+    font-size: clamp(2rem, 2rem + 4dvw ,4rem);
+    padding: clamp(5px, 5px + 1dvw ,40px) 0 5px 0;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-right: 10px;
+}
+
+input {
+    appearance: none;
+    border: none;
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+    padding-left: 10px;
+    text-transform:capitalize;
+    font-size: clamp(0.8rem, 0.8rem + 1dvw, 1.2rem);
+}
+
+#search-img {
+    width: 20px;
+} 
+
+#content {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.city-info {
+    flex: 1;
+}
+
+.details-container {
+    flex: 2;
+    margin: 4px 15px;
+    border-radius: 20px;
+    box-sizing: border-box;
+    background-color: rgba(16, 30, 56, 0.7);
+    display: flex;
+    flex-direction: column;
+}
+
+.details-container * {
+    flex: 1;
+}
+
+.city-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.city-name {
+    font-size: 1.6rem;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.city-temp {
+    font-size: 5rem;
+    display: flex;
+    align-items: center;
+}
+
+.city-temp::after {
+    content: '\00B0';
+}
+
+.three-day-forecast {
+    display: flex;
+    align-items: center;
+}
+
+.three-day-forecast * {
+    flex: 1;
+}
+
+.forecast-temp {
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.forecast-temp::after {
+    content: '\00B0';
+}
+
+.forecast-title {
+    font-size: 1rem;
+    color: white;
+    text-align: center;
+}
+
+.forecast-condition {
+    color: white;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+#hourly-forecast {
+    padding: 10px;
+}
+
