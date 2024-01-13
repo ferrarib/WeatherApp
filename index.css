@@ -11,7 +11,7 @@ body {
     flex-direction: column;
     height: 100dvh;
 
-    background: url("./assets/4k_bg.jpg");
+    background: url("assets/4k_bg.jpg");
     background-size: cover;
     background-position: center;
     overflow: hidden;
