@@ -1,7 +1,7 @@
 import Chart from 'chart.js/auto';
 import weatherConditions from './weatherConditions.json';
 
-const baseURL = 'http://api.weatherapi.com/v1';
+const baseURL = 'https://api.weatherapi.com/v1';
 const API_KEY = '6dc4a02db5314276be852310233112';
 const weekday = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday", "Sunday"];
 let isCelsius = true;
