@@ -43,7 +43,7 @@ body {
     margin-right: 10px;
 }
 
-input {
+input[type="search"] {
     appearance: none;
     border: none;
     background-color: rgb(255, 255, 255);
@@ -51,6 +51,56 @@ input {
     padding-left: 10px;
     text-transform:capitalize;
     font-size: clamp(0.8rem, 0.8rem + 1dvw, 1.2rem);
+}
+
+.temp-switch {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 20px;
+    height: 100%;
+    box-sizing: border-box;
+    transition: background-color 0.2s linear;
+    background-color: white;
+    margin: 0;
+    
+}
+
+.checkbox-container {
+    height: 25px;
+    position: relative;
+}
+
+.checkbox-dot {
+    height: 90%;
+    aspect-ratio: 1/1;
+    position: absolute;
+    background-color: rgb(202, 201, 201);
+    border: 1px solid darkgrey;
+    box-sizing: border-box;
+    top: 1px;
+    transition: left 0.2s linear, background-color 0.2s linear, border-color 0.2s linear;
+    left: 1px;
+    border-radius: 20px;
+}
+
+.switched-dot {
+    transition: left 0.2s linear, background-color 0.2s linear, border-color 0.2s linear;
+    left: calc(100% - 24px);
+    background-color: rgb(44, 114, 243);
+    border-color: rgb(41, 107, 230);
+}
+
+.switched-bg {
+    transition: background-color 0.2s linear;
+    background-color: rgb(30, 151, 250) !important;
 }
 
 #search-img {
@@ -61,7 +111,6 @@ input {
     flex: 2;
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
 }
 
 .city-info {
@@ -76,6 +125,12 @@ input {
     background-color: rgba(16, 30, 56, 0.7);
     display: flex;
     flex-direction: column;
+}
+
+.canvas-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 0;
 }
 
 .details-container * {
@@ -117,7 +172,7 @@ input {
 
 .forecast-temp {
     color: white;
-    font-size: 2rem;
+    font-size: clamp(2rem, 1rem + 2dvw ,4rem);
     text-align: center;
 }
 
@@ -126,7 +181,7 @@ input {
 }
 
 .forecast-title {
-    font-size: 1rem;
+    font-size: clamp(1rem, 0.5rem + 2dvw ,4rem);
     color: white;
     text-align: center;
 }
@@ -134,10 +189,27 @@ input {
 .forecast-condition {
     color: white;
     text-align: center;
-    font-size: 0.9rem;
+    font-size: clamp(0.9rem, 0.5rem + 2dvw ,4rem);
 }
 
-#hourly-forecast {
+#hourly-forecast, #wind {
     padding: 10px;
+    
 }
 
+@media only screen and (min-width: 1000px) {
+
+    .details-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: 1fr 1fr;
+    }
+
+    .canvas-wrapper {
+        grid-column: span 2;
+    }
+
+    .three-day-forecast {
+        grid-area: 2/1/3/5;
+    }
+}

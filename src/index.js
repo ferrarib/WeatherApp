@@ -4,10 +4,15 @@ import weatherConditions from './weatherConditions.json';
 const baseURL = 'http://api.weatherapi.com/v1';
 const API_KEY = '6dc4a02db5314276be852310233112';
 const weekday = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday", "Sunday"];
+let isCelsius = true;
 
 async function GetData(location) {
   const response = await fetch(`${baseURL}/forecast.json?key=${API_KEY}&days=3&q=${location}`);
   return response.json();
+}
+
+function ToggleTemp() {
+  isCelsius = !isCelsius;
 }
 
 function formatAMPM(date) {
@@ -28,7 +33,7 @@ function CreateHourlyChart(data) {
   data.hour.forEach((hour, i) => {
     if (i % 3 == 0){
       let time = formatAMPM(new Date(hour.time));
-      hourlyData.push({ hour: time, temp: Math.round(hour.temp_c)});
+      hourlyData.push({ hour: time, temp: Math.round(isCelsius ? hour.temp_c : hour.temp_f)});
     }
   });
 
@@ -45,6 +50,8 @@ function CreateHourlyChart(data) {
         ]
       },
       options: {
+        responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             labels: {
@@ -70,7 +77,59 @@ function CreateHourlyChart(data) {
       }
     }
   );
+}
 
+function CreateWindChart(data) {
+  const hourlyChart = document.getElementById('wind');
+  let hourlyData = [];
+
+  data.hour.forEach((hour, i) => {
+    if (i % 3 == 0){
+      let time = formatAMPM(new Date(hour.time));
+      hourlyData.push({ hour: time, speed: Math.round(hour.wind_kph)});
+    }
+  });
+
+  new Chart(
+    hourlyChart, {
+      type: "line",
+      data: {
+        labels: hourlyData.map(row => row.hour),
+        datasets: [
+          {
+            label: 'Wind Speed - Km/h',
+            data: hourlyData.map(row => row.speed)
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: 'white',
+              font: {
+                size: 18
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            ticks: {
+              color: 'white'
+            }
+          },
+          x: {
+            ticks: {
+              color: 'white'
+            }
+          }
+        }
+      }
+    }
+  );
 }
 
 function RenderData(data) {
@@ -88,7 +147,7 @@ function RenderData(data) {
 
   const cityTemp = document.createElement('div');
   cityTemp.classList.add('city-temp');
-  cityTemp.textContent = Math.round(data.current.temp_c);
+  cityTemp.textContent = Math.round(isCelsius ? data.current.temp_c : data.current.temp_f);
 
   const cityCondition = document.createElement('div');
   cityCondition.classList.add('city-condition');
@@ -101,13 +160,23 @@ function RenderData(data) {
   const detailsContainer = document.createElement('div');
   detailsContainer.classList.add('details-container');
 
+  const hourlyWrapper = document.createElement('div');
+  hourlyWrapper.classList.add('canvas-wrapper');
+
   // hourly chart
   const hourlyForecast = document.createElement('canvas');
   hourlyForecast.id = 'hourly-forecast';
 
+  hourlyWrapper.appendChild(hourlyForecast);
+
+  const windWrapper = document.createElement('div');
+  windWrapper.classList.add('canvas-wrapper');
+
   // Daily Forecast
-  const wind = document.createElement('div');
-  wind.classList.add('wind');
+  const wind = document.createElement('canvas');
+  wind.id = 'wind';
+
+  windWrapper.appendChild(wind);
 
   // Daily Forecast
   const threeDayForecast = document.createElement('div');
@@ -122,7 +191,7 @@ function RenderData(data) {
 
     const dayTemp = document.createElement('div');
     dayTemp.classList.add('forecast-temp');
-    dayTemp.textContent = Math.round(currentDay.day.maxtemp_c);
+    dayTemp.textContent = Math.round(isCelsius ? currentDay.day.maxtemp_c : currentDay.day.maxtemp_f);
     
     const dayCondition = document.createElement('div');
     dayCondition.classList.add('forecast-condition');
@@ -135,18 +204,21 @@ function RenderData(data) {
     threeDayForecast.appendChild(day);
   })
 
-  detailsContainer.appendChild(hourlyForecast);
+  detailsContainer.appendChild(hourlyWrapper);
 
-  detailsContainer.appendChild(wind);
+  detailsContainer.appendChild(windWrapper);
   detailsContainer.appendChild(threeDayForecast);
 
   content.appendChild(cityInfo);
   content.appendChild(detailsContainer);
 
   CreateHourlyChart(data.forecast.forecastday[0]);
+  CreateWindChart(data.forecast.forecastday[0]);
 }
 
 const search = document.getElementById('search');
+const switchContainer = document.querySelector('.checkbox-container');
+console.log(switchContainer);
 
 search.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && event.target.value !== ''){
@@ -155,6 +227,18 @@ search.addEventListener('keydown', (event) => {
         RenderData(data);
       });
   }
+});
+
+switchContainer.addEventListener('click', () => {
+  const dot = switchContainer.querySelector('.checkbox-dot');
+  const checkbox = switchContainer.querySelector('.checkbox');
+
+  dot.classList.toggle('switched-dot');
+  checkbox.classList.toggle('switched-bg');
+
+  ToggleTemp();
+  const search = document.getElementById('search');
+  search.dispatchEvent(new KeyboardEvent('keydown', {'key': 'Enter'}));
 });
 
 
