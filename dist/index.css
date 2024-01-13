@@ -11,7 +11,7 @@ body {
     flex-direction: column;
     height: 100dvh;
 
-    background: url(../src/assets/4k_bg.jpg);
+    background: url("/src/assets/4k_bg.jpg");
     background-size: cover;
     background-position: center;
     overflow: hidden;
@@ -76,6 +76,11 @@ input[type="checkbox"] {
 .checkbox-container {
     height: 25px;
     position: relative;
+    cursor: pointer;
+}
+
+.checkbox-container:hover {
+
 }
 
 .checkbox-dot {
