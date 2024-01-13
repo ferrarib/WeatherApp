@@ -222,6 +222,7 @@ console.log(switchContainer);
 
 search.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && event.target.value !== ''){
+    search.blur();
     GetData(event.target.value)
       .then((data) => {
         RenderData(data);
