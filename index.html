@@ -10,8 +10,21 @@
     <div class="nav">
       <div class="title">Weather.io</div>
       <div class="search-container">
-        <img id="search-img" src="../src/assets/magnify.svg" alt="Search">
+        <img id="search-img" src="../src/assets/magnify.svg" alt="Search" />
         <input id="search" type="search" name="search" id="search" />
+      </div>
+      <div class="temp-switch">
+        <div>C</div>
+        <div class="checkbox-container">
+          <input
+            class="checkbox"
+            type="checkbox"
+            name="temp-unit"
+            id="temp-unit"
+          />
+          <div class="checkbox-dot"></div>
+        </div>
+        <div>F</div>
       </div>
     </div>
     <div id="content"></div>
